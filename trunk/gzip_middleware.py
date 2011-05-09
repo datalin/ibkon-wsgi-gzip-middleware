@@ -29,7 +29,6 @@ import cStringIO
 
 
 __version__ = '1.0.1'
-__author__ = 'ibkon.com'
 
 
 def compress(data, compression_level):
@@ -110,11 +109,12 @@ class Gzipper(object):
                 The sole purpose being to add the proper headers automatically.
             '''
             for header in headers:
-                if header[0] == 'Content-Encoding':
+                field = header[0].lower()
+                if field == 'content-encoding':
                     # if the content is already encoded, don't compress
                     buffer['to_gzip'] = False
                     break
-                elif header[0] == 'Content-Type':
+                elif field == 'content-type':
                     ctype = header[1].split(';')[0]
                     if ctype in self.content_types and not(\
                         'msie' in environ.get('HTTP_USER_AGENT', '').lower()\
